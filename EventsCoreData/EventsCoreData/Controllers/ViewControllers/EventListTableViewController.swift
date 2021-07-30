@@ -8,6 +8,7 @@
 import UIKit
 
 class EventListTableViewController: UITableViewController {
+    
     // MARK: - String Constants
     let eventCellID = kStringConstants.StoryBoardIDs.eventVCCellID
     let toDetailVCSegueID = kStringConstants.StoryBoardIDs.toDetailVCSegue
@@ -27,25 +28,42 @@ class EventListTableViewController: UITableViewController {
         loadEvents(reloadTable: true)
     }
     
+    enum EventsSortingProperty{
+        case date
+    }
     
-    
-    /// Reduce the calls to CoreData by load the events only needed
-    /// will sort the events based on dates
-    /// - Parameter reloadTable: indicate weather should reload table view, does NOT call the method tableView.hasUncommittedUpdates
-    func loadEvents(reloadTable: Bool) {
+    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
         let eventsRaw = EventController.shared.getEvents()
+        
+        var sortedEvents: [Event]?
+        
+        switch sortBy {
+        case .date:
+            sortedEvents = sortedEventsByDate(from: eventsRaw)
+            
+        }
+       
+        switch sortedEvents {
+        case let sortedEvents?:
+            self.events = sortedEvents
+            
+        case nil:
+            self.events = []
+            
+        }
+        
+        if reloadTable { tableView.reloadData() }
+    }
+    
+    func sortedEventsByDate(from eventsRaw: [Event]) -> [Event]? {
         let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
+        
         guard eventsRaw.count == validDatesCount else {
-            events = []
             print("\(eventsRaw.count - validDatesCount) nil event date")
-            return
+            return nil
         }
         
-        events = eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
-        
-        if reloadTable {
-            tableView.reloadData()
-        }
+        return eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
     }
 
     // MARK: - Table view data source
