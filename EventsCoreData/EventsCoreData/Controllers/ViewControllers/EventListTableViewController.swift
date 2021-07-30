@@ -28,9 +28,20 @@ class EventListTableViewController: UITableViewController {
     }
     
     
-    // MARK: - Reduce the calls to CoreData
+    
+    /// Reduce the calls to CoreData by load the events only needed
+    /// will sort the events based on dates
+    /// - Parameter reloadTable: indicate weather should reload table view, does NOT call the method tableView.hasUncommittedUpdates
     func loadEvents(reloadTable: Bool) {
-        events = EventController.shared.getEvents()
+        let eventsRaw = EventController.shared.getEvents()
+        let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
+        guard eventsRaw.count == validDatesCount else {
+            events = []
+            print("\(eventsRaw.count - validDatesCount) nil event date")
+            return
+        }
+        
+        events = eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
         
         if reloadTable {
             tableView.reloadData()
