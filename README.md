@@ -1,4 +1,4 @@
-# EventsCoreData Afternoon Solo Project
+# EventsCoreData Friday Solo Project
 
 <br />
 
