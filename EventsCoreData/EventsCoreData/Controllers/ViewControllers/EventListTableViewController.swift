@@ -34,7 +34,6 @@ class EventListTableViewController: UITableViewController {
         return events.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventTableViewCell else { return UITableViewCell() }
@@ -46,8 +45,6 @@ class EventListTableViewController: UITableViewController {
 
         return cell
     }
-    
-
     
     // MARK: - Delete Related
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -66,7 +63,6 @@ class EventListTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
