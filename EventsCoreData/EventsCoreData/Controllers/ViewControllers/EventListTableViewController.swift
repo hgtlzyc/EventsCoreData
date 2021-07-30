@@ -32,6 +32,7 @@ class EventListTableViewController: UITableViewController {
         case date
     }
     
+    ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
     func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
         let eventsRaw = EventController.shared.getEvents()
         
@@ -42,7 +43,7 @@ class EventListTableViewController: UITableViewController {
             sortedEvents = sortedEventsByDate(from: eventsRaw)
             
         }
-       
+        
         switch sortedEvents {
         case let sortedEvents?:
             self.events = sortedEvents
