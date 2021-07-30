@@ -27,45 +27,6 @@ class EventListTableViewController: UITableViewController {
         super.viewWillAppear(true)
         loadEvents(reloadTable: true)
     }
-    
-    enum EventsSortingProperty{
-        case date
-    }
-    
-    ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
-    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
-        let eventsRaw = EventController.shared.getEvents()
-        
-        var sortedEvents: [Event]?
-        
-        switch sortBy {
-        case .date:
-            sortedEvents = sortedEventsByDate(from: eventsRaw)
-            
-        }
-        
-        switch sortedEvents {
-        case let sortedEvents?:
-            self.events = sortedEvents
-            
-        case nil:
-            self.events = []
-            
-        }
-        
-        if reloadTable { tableView.reloadData() }
-    }
-    
-    func sortedEventsByDate(from eventsRaw: [Event]) -> [Event]? {
-        let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
-        
-        guard eventsRaw.count == validDatesCount else {
-            print("\(eventsRaw.count - validDatesCount) nil event date")
-            return nil
-        }
-        
-        return eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
-    }
 
     // MARK: - Table view data source
 
@@ -132,3 +93,47 @@ extension EventListTableViewController: EventCellDelegate {
     }
     
 }
+
+//MARK: - Raw Data sorting related
+extension EventListTableViewController {
+    
+    enum EventsSortingProperty{
+        case date
+    }
+    
+    ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
+    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
+        let eventsRaw = EventController.shared.getEvents()
+        
+        var sortedEvents: [Event]?
+        
+        switch sortBy {
+        case .date:
+            sortedEvents = sortedEventsByDate(from: eventsRaw)
+            
+        }
+        
+        switch sortedEvents {
+        case let sortedEvents?:
+            self.events = sortedEvents
+            
+        case nil:
+            self.events = []
+            
+        }
+        
+        if reloadTable { tableView.reloadData() }
+    }
+    
+    func sortedEventsByDate(from eventsRaw: [Event]) -> [Event]? {
+        let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
+        
+        guard eventsRaw.count == validDatesCount else {
+            print("\(eventsRaw.count - validDatesCount) nil event date")
+            return nil
+        }
+        
+        return eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
+    }
+    
+}//End Of Extension
