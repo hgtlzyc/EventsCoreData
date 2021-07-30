@@ -7,7 +7,7 @@
 
 import CoreData
 
-class EventController {
+class EventController: EventScheduler {
     
     static let shared = EventController()
     
@@ -27,16 +27,21 @@ class EventController {
     // MARK: - CRUD Functions
     
     func createNewEvent(name: String, eventDate: Date, willAttend: Bool) {
-        Event(name: name, eventDate: eventDate, willAttend: willAttend)
-        
+        let newEvent = Event(name: name, eventDate: eventDate, willAttend: willAttend)
+       
         CoreDataStack.saveContext()
+        
+        changeNotification(for: newEvent, shouldOn: newEvent.willAttend)
+        
     }
     
     func updateEvent(_ event: Event, name: String, eventDate: Date) {
         event.eventName = name
         event.eventDate = eventDate
-        
+       
         CoreDataStack.saveContext()
+        
+        changeNotification(for: event, shouldOn: event.willAttend)
         
     }
     
@@ -44,14 +49,28 @@ class EventController {
         event.willAttend.toggle()
         
         CoreDataStack.saveContext()
+        
+        changeNotification(for: event, shouldOn: event.willAttend)
+        
     }
     
     func deleteEvent(_ event: Event) {
         CoreDataStack.context.delete(event)
         
         CoreDataStack.saveContext()
+        
+        changeNotification(for: event, shouldOn: false)
+        
     }
     
+    // MARK: - Change Notification Helper
+    func changeNotification(for event: Event, shouldOn: Bool) {
+        cancelEventNotification(for: event)
+        
+        if shouldOn {
+            scheduleEventNotification(for: event)
+        }
+    }
     
     // MARK: - Private Init
     private init(){}

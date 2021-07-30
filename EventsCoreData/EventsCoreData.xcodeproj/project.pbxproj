@@ -20,6 +20,7 @@
 		E963E3B626B453BC005E012A /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963E3B526B453BC005E012A /* EventController.swift */; };
 		E963E3B826B45496005E012A /* Event+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963E3B726B45496005E012A /* Event+Convenience.swift */; };
 		E963E3BA26B459AD005E012A /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963E3B926B459AD005E012A /* EventTableViewCell.swift */; };
+		E9F75E5C26B468F900A4AE76 /* EventScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F75E5B26B468F900A4AE76 /* EventScheduler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E963E3B526B453BC005E012A /* EventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
 		E963E3B726B45496005E012A /* Event+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Convenience.swift"; sourceTree = "<group>"; };
 		E963E3B926B459AD005E012A /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		E9F75E5B26B468F900A4AE76 /* EventScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventScheduler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				E963E38C26B44D68005E012A /* EventsCoreData */,
-				E963E3AC26B44EE5005E012A /* Helpers */,
 				E963E38B26B44D68005E012A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,10 +72,12 @@
 		E963E38C26B44D68005E012A /* EventsCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				E9F75E5A26B468D500A4AE76 /* Notifications */,
 				E963E3A826B44E19005E012A /* CoreData */,
 				E963E3A526B44DFF005E012A /* Controllers */,
 				E963E3A226B44DE4005E012A /* Views */,
 				E963E3A126B44D86005E012A /* Resources */,
+				E963E3AC26B44EE5005E012A /* Helpers */,
 			);
 			path = EventsCoreData;
 			sourceTree = "<group>";
@@ -160,6 +163,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		E9F75E5A26B468D500A4AE76 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				E9F75E5B26B468F900A4AE76 /* EventScheduler.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,6 +244,7 @@
 				E963E3B226B4533C005E012A /* EventListTableViewController.swift in Sources */,
 				E963E3B026B4517A005E012A /* CoreDataStack.swift in Sources */,
 				E963E3AE26B44EFD005E012A /* StringConstants.swift in Sources */,
+				E9F75E5C26B468F900A4AE76 /* EventScheduler.swift in Sources */,
 				E963E3B826B45496005E012A /* Event+Convenience.swift in Sources */,
 				E963E3AB26B44E4C005E012A /* EventsCoreData.xcdatamodeld in Sources */,
 				E963E38E26B44D68005E012A /* AppDelegate.swift in Sources */,

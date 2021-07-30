@@ -3,9 +3,10 @@
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="eventDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="eventName" optional="YES" attributeType="String"/>
+        <attribute name="eventUUID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="willAttend" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="Event" positionX="-63" positionY="-18" width="128" height="89"/>
     </elements>
 </model>
