@@ -5,6 +5,65 @@
 code snippets
 
 ```swift
+//MARK: - Raw Data sorting related
+extension EventListTableViewController {
+    
+    enum EventsSortingProperty{
+        case date
+    }
+    
+    ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
+    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date, isAssending: Bool = false) {
+        let eventsRaw = EventController.shared.getEvents()
+        
+        var sortedEvents: [Event]?
+        
+        switch sortBy {
+        case .date:
+            sortedEvents = sortedEventsByDate(from: eventsRaw, isAssending: isAssending)
+            
+        }//
+        
+        switch sortedEvents {
+        case let sortedEvents?:
+            self.events = sortedEvents
+            
+        case nil:
+            self.events = []
+            
+        }//
+        
+        if reloadTable { tableView.reloadData() }
+    }
+    
+    func sortedEventsByDate(from eventsRaw: [Event], isAssending: Bool) -> [Event]? {
+        let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
+        
+        guard eventsRaw.count == validDatesCount else {
+            print("\(eventsRaw.count - validDatesCount) nil event date")
+            return nil
+        }
+        
+        //If Date same will be sort by name
+        func isEventAssendingDate(_ lh: Event, _ rh: Event) -> Bool {
+            guard lh.eventDate! != rh.eventDate! else {
+                return (lh.eventName?.first ?? "a" ) < ( rh.eventName?.first ?? "a" )
+            }
+            
+            return lh.eventDate! > rh.eventDate!
+        }
+        
+        switch isAssending {
+        case true: return eventsRaw.sorted(by: isEventAssendingDate)
+        case false: return eventsRaw.sorted(by: isEventAssendingDate)
+        }
+        
+    }//End Of sortedEventsByDate
+    
+    
+}//End Of Extension
+
+
 import CoreData
 
 class EventController: EventScheduler {
@@ -75,52 +134,6 @@ class EventController: EventScheduler {
     // MARK: - Private Init
     private init(){}
 }
-
-
-
-//MARK: - Raw Data sorting related
-extension EventListTableViewController {
-    
-    enum EventsSortingProperty{
-        case date
-    }
-    
-    ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
-    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
-        let eventsRaw = EventController.shared.getEvents()
-        
-        var sortedEvents: [Event]?
-        
-        switch sortBy {
-        case .date:
-            sortedEvents = sortedEventsByDate(from: eventsRaw)
-            
-        }
-        
-        switch sortedEvents {
-        case let sortedEvents?:
-            self.events = sortedEvents
-            
-        case nil:
-            self.events = []
-            
-        }
-        
-        if reloadTable { tableView.reloadData() }
-    }
-    
-    func sortedEventsByDate(from eventsRaw: [Event]) -> [Event]? {
-        let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
-        
-        guard eventsRaw.count == validDatesCount else {
-            print("\(eventsRaw.count - validDatesCount) nil event date")
-            return nil
-        }
-        
-        return eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
-    }
-    
-}//End Of Extension
 
 ```
  
