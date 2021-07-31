@@ -98,16 +98,16 @@ extension EventListTableViewController {
     }
     
     ///Changing the Value of events: [Event]!, does NOT check tableView.hasUncommittedUpdates
-    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date) {
+    func loadEvents(reloadTable: Bool, sortBy: EventsSortingProperty = .date, isAssending: Bool = false) {
         let eventsRaw = EventController.shared.getEvents()
         
         var sortedEvents: [Event]?
         
         switch sortBy {
         case .date:
-            sortedEvents = sortedEventsByDate(from: eventsRaw)
+            sortedEvents = sortedEventsByDate(from: eventsRaw, isAssending: isAssending)
             
-        }
+        }//
         
         switch sortedEvents {
         case let sortedEvents?:
@@ -116,12 +116,12 @@ extension EventListTableViewController {
         case nil:
             self.events = []
             
-        }
+        }//
         
         if reloadTable { tableView.reloadData() }
     }
     
-    func sortedEventsByDate(from eventsRaw: [Event]) -> [Event]? {
+    func sortedEventsByDate(from eventsRaw: [Event], isAssending: Bool) -> [Event]? {
         let validDatesCount = eventsRaw.compactMap{$0.eventDate}.count
         
         guard eventsRaw.count == validDatesCount else {
@@ -129,7 +129,21 @@ extension EventListTableViewController {
             return nil
         }
         
-        return eventsRaw.sorted{ $0.eventDate! > $1.eventDate! }
-    }
+        //If Date same will be sort by name
+        func isEventAssendingDate(_ lh: Event, _ rh: Event) -> Bool {
+            guard lh.eventDate! != rh.eventDate! else {
+                return (lh.eventName?.first ?? "a" ) < ( rh.eventName?.first ?? "a" )
+            }
+            
+            return lh.eventDate! > rh.eventDate!
+        }
+        
+        switch isAssending {
+        case true: return eventsRaw.sorted(by: isEventAssendingDate)
+        case false: return eventsRaw.sorted(by: isEventAssendingDate)
+        }
+        
+    }//End Of sortedEventsByDate
+    
     
 }//End Of Extension

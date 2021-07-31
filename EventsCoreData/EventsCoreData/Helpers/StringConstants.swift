@@ -9,7 +9,6 @@ import Foundation
 
 enum kStringConstants {
     
-    
     // MARK: - Storyboard Related
     enum StoryBoardIDs {
         static let eventVCCellID = "eventCell"

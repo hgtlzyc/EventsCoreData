@@ -30,6 +30,7 @@ extension EventScheduler {
         let request = UNNotificationRequest(identifier: eventUUIDString,
                                             content: content,
                                             trigger: trigger)
+        
         UNUserNotificationCenter.current().add(request) { err in
             if let err = err {
                 print("Function: \(#function), line: \(#line)", Date())
