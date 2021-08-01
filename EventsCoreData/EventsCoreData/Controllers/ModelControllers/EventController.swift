@@ -7,6 +7,7 @@
 
 import CoreData
 
+/// Conforms to EventScheduler which has default implemenation for schedule notifications
 class EventController: EventScheduler {
     
     static let shared = EventController()
@@ -29,9 +30,7 @@ class EventController: EventScheduler {
     func createNewEvent(name: String, eventDate: Date, willAttend: Bool) {
         let newEvent = Event(name: name, eventDate: eventDate, willAttend: willAttend)
        
-        CoreDataStack.saveContext()
-        
-        changeNotification(for: newEvent, shouldOn: newEvent.willAttend)
+        saveContextAndChangeNotification(for: newEvent, shouldOn: newEvent.willAttend)
         
     }
     
@@ -39,29 +38,33 @@ class EventController: EventScheduler {
         event.eventName = name
         event.eventDate = eventDate
        
-        CoreDataStack.saveContext()
-        
-        changeNotification(for: event, shouldOn: event.willAttend)
+        saveContextAndChangeNotification(for: event, shouldOn: event.willAttend)
         
     }
     
     func toggleEventWillAttendStatus(_ event: Event) {
         event.willAttend.toggle()
         
-        CoreDataStack.saveContext()
-        
-        changeNotification(for: event, shouldOn: event.willAttend)
+        saveContextAndChangeNotification(for: event, shouldOn: event.willAttend)
         
     }
     
     func deleteEvent(_ event: Event) {
         CoreDataStack.context.delete(event)
         
-        CoreDataStack.saveContext()
-        
-        changeNotification(for: event, shouldOn: false)
+        saveContextAndChangeNotification(for: event, shouldOn: false)
         
     }
+    
+    // MARK: - Save Context and Notification Helper
+    
+    func saveContextAndChangeNotification(for event: Event, shouldOn: Bool) {
+        CoreDataStack.saveContext()
+        
+        changeNotification(for: event, shouldOn: shouldOn)
+        
+    }
+    
     
     // MARK: - Change Notification Helper
     func changeNotification(for event: Event, shouldOn: Bool) {
