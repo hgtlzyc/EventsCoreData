@@ -1,5 +1,5 @@
 # EventsCoreData Friday Solo Project
-
+[Go To My Resume](https://github.com/hgtlzyc/Resume#events-reminder-github-repo)
 <br />
 
 code snippet
