@@ -16,11 +16,26 @@ class EventListTableViewController: UITableViewController {
     // MARK: - Vars
     var events: [Event]!
     
+    //Search Bar
+    let searchController : UISearchController = {
+        let controller = UISearchController()
+        controller.hidesNavigationBarDuringPresentation = true
+        controller.obscuresBackgroundDuringPresentation = false
+        
+        return controller
+    }()
+    
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadEvents(reloadTable: false)
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
+        
+        searchController.searchResultsUpdater = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +103,16 @@ extension EventListTableViewController: EventCellDelegate {
         loadEvents(reloadTable: true)
     }
     
+}
+
+//MARK: - Data Search Related
+extension EventListTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchKey = searchController.searchBar.text else { return }
+       
+        
+        
+    }
 }
 
 //MARK: - Raw Data sorting related
